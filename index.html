@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>San Valentín 💖</title>
+
+<style>
+body{
+  margin:0;
+  font-family:'Arial',sans-serif;
+  background:linear-gradient(135deg,#f8d7da,#faedcd,#fde2e4);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
+  overflow:hidden;
+}
+
+.jardin{
+  position:fixed;
+  top:0; bottom:0;
+  width:40px;
+  font-size:30px;
+}
+.left{left:5px;}
+.right{right:5px;}
+
+.contenedor{
+  width:90%;
+  max-width:420px;
+  background:#fff;
+  border-radius:25px;
+  padding:25px;
+  text-align:center;
+  box-shadow:0 10px 30px rgba(0,0,0,.25);
+  z-index:2;
+}
+
+.pantalla{display:none;}
+.activa{display:block;}
+
+h1{color:#9d0208;}
+p{color:#6a040f;}
+
+button{
+  background:#ff5d8f;
+  color:white;
+  border:none;
+  padding:12px 18px;
+  margin:8px;
+  border-radius:18px;
+  font-size:16px;
+}
+
+.emoji{font-size:80px;margin:15px 0;}
+.error{color:#d00000;margin-top:10px;}
+
+.mariposa{
+  position:fixed;
+  font-size:40px;
+  animation:fly 6s linear infinite;
+}
+@keyframes fly{
+  0%{top:90%;left:-10%}
+  50%{top:10%;left:50%}
+  100%{top:90%;left:110%}
+}
+
+.paloma{
+  font-size:40px;
+  margin:5px;
+}
+
+.confetti{
+  position:fixed;
+  font-size:24px;
+  animation:fall 4s linear infinite;
+}
+@keyframes fall{
+  to{transform:translateY(110vh);opacity:0;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="jardin left">🌷🌸🌷🌸🌷</div>
+<div class="jardin right">🌸🌷🌸🌷🌸</div>
+
+<audio id="sound">
+<source src="https://cdn.pixabay.com/audio/2022/03/15/audio_2a6c7b0b0c.mp3">
+</audio>
+
+<div class="contenedor">
+
+<div class="pantalla activa" id="p1">
+<h1>¿Estás libre este fin de semana? 😏</h1>
+<div class="emoji">🙂‍↕️</div>
+<button onclick="fail()">No</button>
+<button onclick="fail()">No sé</button>
+<button onclick="next('p1','p2')">Sí, pero solo para uno</button>
+<div class="error" id="e1"></div>
+</div>
+
+<div class="pantalla" id="p2">
+<h1>-_- ¿Quién es “UNO”?</h1>
+<div class="emoji">😏</div>
+<button onclick="fail()">Elías</button>
+<button onclick="fail()">Mi bebé</button>
+<button onclick="next('p2','p3')">Mi todo</button>
+<div class="error" id="e2"></div>
+</div>
+
+<div class="pantalla" id="p3">
+<h1>QUIÉN ES MI TODO</h1>
+<div class="emoji">😼</div>
+<button onclick="next('p3','p4')">Tú</button>
+</div>
+
+<div class="pantalla" id="p4">
+<h1>Ajá… más te vale 😏</h1>
+<div class="emoji">😏</div>
+<div class="mariposa" onclick="next('p4','p5')">🦋</div>
+</div>
+
+<div class="pantalla" id="p5">
+<h1>Bueno mi reina</h1>
+<p>es momento de hacer nuestro primer viaje 💕</p>
+<div>
+<span class="paloma" onclick="removeBird(this)">🕊️</span>
+<span class="paloma" onclick="removeBird(this)">🕊️</span>
+<span class="paloma" onclick="removeBird(this)">🕊️</span>
+</div>
+</div>
+
+<div class="pantalla" id="p6">
+<h1>Me dijiste que te gustaba mucho el frío 🥶❄️</h1>
+<button onclick="next('p6','p7')">Sí</button>
+<button onclick="fail()">No</button>
+<div class="error" id="e6"></div>
+</div>
+
+<div class="pantalla" id="p7">
+<h1>Tenemos una cita para San Valentín 💖</h1>
+<p>Mantén presionado el corazón</p>
+<div class="emoji" onmousedown="next('p7','p8')">💖</div>
+</div>
+
+<div class="pantalla" id="p8">
+<h1>Nos vamos al Polo Norte ❄️</h1>
+<p>JO JO JO JO 🎅</p>
+<button onclick="next('p8','p9')">❄️</button>
+</div>
+
+<div class="pantalla" id="p9">
+<h1>😹😹</h1>
+<p>Te la creíste beibi</p>
+<button onclick="next('p9','p10')">Ok no 😹</button>
+</div>
+
+<div class="pantalla" id="p10">
+<h1>Ahora sí…</h1>
+<span class="emoji ojo" onclick="hide(this)">👀</span>
+<span class="emoji ojo" onclick="hide(this)">👀</span>
+<span class="emoji ojo" onclick="hide(this)">👀</span>
+<span class="emoji ojo" onclick="hide(this)">👀</span>
+</div>
+
+<div class="pantalla" id="p11">
+<h1>🌄 BAÑOS DE AGUA SANTA 🌄</h1>
+<h1>¡AGARRA TUS MALETAS!</h1>
+</div>
+
+</div>
+
+<script>
+const mensajes=[
+"Revisa bien tu respuesta 😡",
+"Creo que no quisiste elegir esa 🤡",
+"Pulsaste mal 🙈",
+"Haré como que no vi eso 🫩",
+"Eso no le gusta a diosito 🥺",
+"¿Me quieres ver la cara? 😔"
+];
+
+function fail(){
+  const e=document.querySelector(".activa .error");
+  e.innerText=mensajes.shift()||"Ya pues… concéntrate 😡";
+}
+
+function next(a,b){
+  document.getElementById(a).classList.remove("activa");
+  document.getElementById(b).classList.add("activa");
+  document.getElementById("sound").play();
+}
+
+let birds=3;
+function removeBird(el){
+  el.style.display="none";
+  birds--;
+  if(birds===0) next('p5','p6');
+}
+
+let eyes=4;
+function hide(el){
+  el.style.display="none";
+  eyes--;
+  if(eyes===0){
+    next('p10','p11');
+    for(let i=0;i<40;i++){
+      const c=document.createElement("div");
+      c.className="confetti";
+      c.innerHTML=Math.random()>0.5?"💖":"🎉";
+      c.style.left=Math.random()*100+"vw";
+      c.style.animationDuration=(2+Math.random()*3)+"s";
+      document.body.appendChild(c);
+      setTimeout(()=>c.remove(),5000);
+    }
+  }
+}
+</script>
+
+</body>
+  </html>
